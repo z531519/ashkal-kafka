@@ -4,7 +4,6 @@ Kafka Environment is used to support the following Kafka Template Apps
 - [Java](../kafka-java-template)
 - [Golang](../kafka-go-template)
 - [NodeJS](../kafka-node-template)
-- [DotNet](../kafka-dotnet-template)
 
 The Kafka Template Apps are basically similar implementations using different languages.  
 - A simple API to allow POSTing of Customer record and sending it out to a Kafka Topic
