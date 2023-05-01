@@ -24,7 +24,7 @@ This project uses Typescript.
 
 ## Prerequisites
 
-- This project depends on the [Kafka Environment Project](../../../kafka-environment).  Please make sure you pull down this repo locally.
+- This project depends on the [Kafka Environment Project](../kafka-environment).  Please make sure you pull down this repo locally.
 
 
 ## Running the Demo App Locally
@@ -181,7 +181,7 @@ This size is based on the raw payload size prior to any compression.
 
 ## Producing Customer Records using Producer App Command Line Utility
 
-This project comes with a command line too for producing Customer Records via command line.   Make sure you generate the `customers.json` file using the [mockdata](../../../kafka-environment/mockdata) project
+This project comes with a command line too for producing Customer Records via command line.   Make sure you generate the `customers.json` file using the [mockdata](../kafka-environment/mockdata) project
 
 ```shell
 # defaults to reading customers.json

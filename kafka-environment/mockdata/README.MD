@@ -9,10 +9,10 @@ A simple data model representing a [customer](./src/main/avro/customer.avsc).  T
 ## Running Mock Data Generator
 
 Use this project to exercise the following Kafka Producer Template Apps:
-- [Java](../../../../kafka-java-template)
-- [Golang](../../../../kafka-go-template)
-- [NodeJS](../../../../kafka-node-template)
-- [DotNet](../../../../kafka-dotnet-template)
+- [Java](../../kafka-java-template)
+- [Golang](../../kafka-go-template)
+- [NodeJS](../../kafka-node-template)
+- [DotNet](../../kafka-dotnet-template)
 
 
 Start up one of the template applications so it can start listening for traffic on http://ocalhost:8080/customers (all template apps default to port 8080).

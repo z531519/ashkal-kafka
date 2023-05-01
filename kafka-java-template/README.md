@@ -12,7 +12,7 @@ This template project showcases Basic Kafka Consumers and Producer applications 
 
 ## Prerequisites
 
-- This project depends on the [Kafka Environment Project](../../../kafka-environment).  Please make sure you pull down this repo locally.
+- This project depends on the [Kafka Environment Project](../kafka-environment).  Please make sure you pull down this repo locally.
 
 
 ## Spring Boot Configuration
@@ -24,7 +24,7 @@ No code change are necessary to switch between the different target environments
 
 ## Running the Demo App Locally
 
-First, make sure that you have pulled down the supporting repo [Kafka Environment Project](../../../kafka-environment).
+First, make sure that you have pulled down the supporting repo [Kafka Environment Project](../kafka-environment).
 Follow the instructions to start up your local Kafka Environment.
 
 Once we have kafka services running, let's start our Customer Demo App with
@@ -121,7 +121,7 @@ Here that we are specifying a compression of `gzip` and also setting the max req
         | grep max.message.bytes
     ```
 
-You can use the [mockdata](../../../kafka-environment//tree/main/mockdata) project to generate sample Customer Records with large payloads.
+You can use the [mockdata](../kafka-environment//tree/main/mockdata) project to generate sample Customer Records with large payloads.
 
 
 ### Payload Too Large
