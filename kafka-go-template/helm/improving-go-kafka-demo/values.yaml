@@ -1,0 +1,28 @@
+namespace: ashkal
+image:
+  pullPolicy: IfNotPresent
+  name: go-kafka-demo
+  tag: latest
+resources:
+  limits:
+    cpu: 1000m
+    memory: 500Mi
+  requests:
+    cpu: 500m
+    memory: 500Mi
+service:
+  enabled: enabled
+  externalPort: 8080
+  internalPort: 8080
+  name: go-kafka-demo
+  type: ClusterIP
+hpa:
+  testMinReplicas: 3
+  testMaxReplicas: 8
+  minReplicas: 10
+  maxReplicas: 20
+  targetCPU: 60 
+
+## the secret name holding the credentials for authenticating against
+#    a kafka environment (brokers and schema registry)
+kafkaSecretName:

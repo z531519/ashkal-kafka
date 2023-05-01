@@ -1,0 +1,4 @@
+
+data:
+  bootstrap.servers: host.docker.internal:19093,host.docker.internal:29093,host.docker.internal:39093
+  schema.registry.url: http://host.docker.internal:8081

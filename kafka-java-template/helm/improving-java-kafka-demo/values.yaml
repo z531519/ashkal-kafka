@@ -1,0 +1,22 @@
+namespace: ashkal
+image:
+  pullPolicy: IfNotPresent
+  name: java-kafka-demo
+  tag: latest
+resources:
+  limits:
+    cpu: 1000m
+    memory: 500Mi
+  requests:
+    cpu: 500m
+    memory: 500Mi
+service:
+  enabled: enabled
+  externalPort: 8080
+  internalPort: 8080
+  name: java-kafka-demo
+  type: ClusterIP
+
+## the secret name holding the credentials for authenticating against
+#    a kafka environment (brokers and schema registry)
+kafkaSecretName:

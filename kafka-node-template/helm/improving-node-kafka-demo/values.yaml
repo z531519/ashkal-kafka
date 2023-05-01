@@ -1,0 +1,24 @@
+namespace: ashkal
+image:
+  pullPolicy: IfNotPresent
+  name: node-kafka-demo  
+  tag: latest
+resources:
+  limits:
+    cpu: 250m
+    memory: 500Mi
+  requests:
+    cpu: 250m
+    memory: 500Mi
+service:
+  enabled: enabled
+  externalPort: 8080
+  internalPort: 8080
+  name: node-kafka-demo
+  type: NodePort
+
+env:
+  NODE_ENV: local
+
+data: 
+  

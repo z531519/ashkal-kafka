@@ -1,0 +1,9 @@
+##
+## This configuration is used along the local kafka services provisioned with docker compose.
+##
+
+spring:
+ kafka:
+   bootstrap-servers: localhost:19092
+   properties:
+     schema.registry.url: http://localhost:8081

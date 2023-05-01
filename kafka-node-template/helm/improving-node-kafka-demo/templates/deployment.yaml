@@ -1,0 +1,114 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  name: {{ .Values.service.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: {{ .Values.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service.name }}
+    spec:    
+      containers:
+      - image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Chart.Name }}    
+        ports:
+          - name: http
+            containerPort: {{ .Values.service.internalPort }}
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /customers
+            port: {{ .Values.service.internalPort }}
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /customers
+            port: {{ .Values.service.internalPort }}
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10  
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}        
+        {{if .Values.volumeMounts}}   
+        volumeMounts:
+          {{- with .Values.volumeMounts }}        
+            {{- toYaml . | nindent 10 }}
+          {{- end }}        
+        {{ end }}
+        env:
+          
+          ##############################
+          # APPLICATION CONFIGURATIONS #
+          ##############################       
+          - name: NODE_ENV
+            value: {{ .Values.env.NODE_ENV }}
+          - name: KAFKAJS_LOG_LEVEL
+            value: info
+          - name: ASHKAL_GLOBAL_METADATA_BROKER_LIST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Values.service.name }} 
+                key: bootstrap.servers
+          - name: ASHKAL_SCHEMA_REGISTRY_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Values.service.name }} 
+                key: schema.registry.url
+          - name: ASHKAL_GLOBAL_SESSION_TIMEOUT_MS
+            value: "45000"
+          
+          {{- with .Values.kafkaSecretName }}                  
+          ##############################
+          # KAFKA SECRETS #
+          ##############################
+          - name: ASHKAL_GLOBAL_SECURITY_PROTOCOL
+            value: SASL_SSL
+          - name: ASHKAL_GLOBAL_SASL_MECHANISMS
+            value: PLAIN
+          - name: ASHKAL_GLOBAL_SASL_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ . }}
+                key: CLUSTER_API_KEY
+          - name: ASHKAL_GLOBAL_SASL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ . }}
+                key: CLUSTER_API_SECRET
+          - name: ASHKAL_SCHEMA_REGISTRY_AUTH_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ . }}
+                key: SR_API_KEY
+          - name: ASHKAL_SCHEMA_REGISTRY_AUTH_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ . }}
+                key: SR_API_SECRET          
+          {{ end }}
+
+
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

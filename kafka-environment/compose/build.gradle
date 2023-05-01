@@ -1,0 +1,18 @@
+
+// Convenience gradle setup for gradle users
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.avast.gradle:gradle-docker-compose-plugin:0.16.9"
+    }
+}
+
+apply plugin: 'docker-compose'
+
+dockerCompose {
+    projectName = 'ashkal' // allow to set custom docker-compose project name (defaults to a stable name derived from absolute path of the project and nested settings name), set to null to Docker Compose default (directory name)
+    projectNamePrefix = 'ashkal_' 
+}

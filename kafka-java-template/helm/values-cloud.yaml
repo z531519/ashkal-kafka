@@ -1,0 +1,10 @@
+## Use this values file to connect to your confluent cloud 
+##  
+## You will need to apply a secret prior to installing this Helm chart with this settings.
+## Refer to `sample-secrets.yaml`
+##
+kafkaSecretName: cloud-kafka
+data:
+  spring.profiles.active: cloud
+  kafka.bootstrap_servers: # your cloud bootstrap server here
+  kafka.schema_registry_servers: # your cloud schema registry here

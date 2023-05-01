@@ -1,0 +1,7 @@
+
+
+
+data:
+  spring.profiles.active: local
+  kafka.bootstrap_servers: host.docker.internal:19093,host.docker.internal:29093,host.docker.internal:39093
+  kafka.schema_registry_servers: http://host.docker.internal:8081

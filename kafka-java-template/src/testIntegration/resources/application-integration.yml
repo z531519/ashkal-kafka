@@ -1,0 +1,21 @@
+##
+## the system variables below are assigned as part of the testcontainers bootstrapping
+##
+spring:
+  kafka:
+    bootstrap-servers: localhost:19092
+    properties:
+      schema.registry.url: http://localhost:8081
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    consumer:
+      client-id: test-template
+      group-id: test-template-consumer
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        auto.offset:.reset: earliest
+        specific.avro.reader: true
+
+topic.name: test-customers

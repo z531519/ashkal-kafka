@@ -1,0 +1,14 @@
+bootstrap.servers: localhost:19092
+client.id: ashkal
+
+schema.registry.url: http://localhost:8081
+
+consumer:
+  group.id: template-go-consumer
+  auto.offset.reset: earliest
+  session.timeout.ms: 45000
+producer:
+  compression.type: gzip
+  message.max.bytes: 2097152
+
+topic.name: customers

@@ -1,0 +1,24 @@
+##
+## The base configuration application configuration.  
+## You must supply the proper Kafka and Scheama Registry connection properties otherwise it
+## will use defaults ( bootstrap localhost:9092, schema registry http://localhost:8081)
+##
+##
+
+spring:
+  kafka:
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      compression-type: gzip
+      max-request-size: 2MB
+    consumer:
+      client-id: template
+      group-id: template-consumer
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        specific.avro.reader: true
+
+topic.name: customers

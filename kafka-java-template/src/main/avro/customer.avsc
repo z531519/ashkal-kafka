@@ -1,0 +1,47 @@
+{
+  "type": "record",
+  "name": "Customer",
+  "namespace": "org.ashkal.templates.data.avro",
+  "fields": [
+    {
+      "name": "birthdt",
+      "type": "string"
+    },
+    {
+      "name": "fname",
+      "type": "string"
+    },
+    {
+      "name": "fullname",
+      "type": "string"
+    },
+    {
+      "name": "gender",
+      "type": "string"
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "lname",
+      "type": "string"
+    },
+    {
+      "name": "mname",
+      "type": "string"
+    },
+    {
+      "name": "suffix",
+      "type": "string"
+    },
+    {
+      "name": "title",
+      "type": "string"
+    },
+    {
+      "name": "largePayload",
+      "type": "string"
+    }
+  ]
+}

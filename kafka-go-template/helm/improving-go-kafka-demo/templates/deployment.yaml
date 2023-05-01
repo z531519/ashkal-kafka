@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  name: {{ .Values.service.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: {{ .Values.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.service.name }}
+    spec:    
+      containers:
+      - image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        name: {{ .Chart.Name }}    
+        ports:
+          - name: http
+            containerPort: {{ .Values.service.internalPort }}
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /customers
+            port: {{ .Values.service.internalPort }}
+          initialDelaySeconds: 5
+          periodSeconds: 60
+          timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /customers
+            port: {{ .Values.service.internalPort }}
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 1    
+        resources:
+          limits:
+            cpu: {{ .Values.resources.limits.cpu }}
+            memory: {{ .Values.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.resources.requests.cpu }}
+            memory: {{ .Values.resources.requests.memory }}                
+        
+           
+        env:  
+          ##############################
+          # APPLICATION CONFIGURATIONS #
+          ##############################       
+          - name: ASHKAL_BOOTSTRAP_SERVERS
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Values.service.name }} 
+                key: bootstrap.servers
+          - name: ASHKAL_SCHEMA_REGISTRY_URL
+            valueFrom:
+              configMapKeyRef:
+                name: {{ .Values.service.name }} 
+                key: schema.registry.url
+
+          
+          {{- with .Values.kafkaSecretName }}                  
+          ##############################
+          # KAFKA SECRETS #
+          ##############################
+          - name: ASHKAL_KAFKA_SECURITY_PROTOCOL
+            value: SASL_SSL
+          - name: ASHKAL_KAFKA_SASL_MECHANISMS
+            value: PLAIN
+          - name: ASHKAL_KAFKA_SASL_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ . }}
+                key: CLUSTER_API_KEY
+          - name: ASHKAL_KAFKA_SASL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ . }}
+                key: CLUSTER_API_SECRET
+          - name: ASHKAL_SCHEMA_REGISTRY_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ . }}
+                key: SR_API_KEY
+          - name: ASHKAL_SCHEMA_REGISTRY_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ . }}
+                key: SR_API_SECRET          
+          {{ end }}
+        
+
+      {{- with .Values.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

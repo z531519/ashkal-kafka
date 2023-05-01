@@ -1,0 +1,11 @@
+
+env:
+  NODE_ENV: cloud
+
+image:
+  name: node-kafka-demo
+
+kafkaSecretName: cloud-kafka
+data:  
+  bootstrap.servers: 
+  schema.registry.url: 

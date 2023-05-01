@@ -1,0 +1,83 @@
+plugins {
+    id 'java'
+    id 'groovy'
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+
+    id 'org.unbroken-dome.test-sets' version '4.0.0'
+    id "com.github.davidmc24.gradle.plugin.avro" version "1.5.0"
+}
+
+group 'org.ashkal.templates'
+version '0.0.1'
+sourceCompatibility = '17'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://packages.confluent.io/maven"
+    }
+    maven { url 'https://jitpack.io' }
+}
+
+springBoot {
+    mainClass = 'org.ashkal.templates.DemoApp'
+}
+
+bootRun {
+    println System.getenv("SPRING_PROFILES_ACTIVE")
+    if (System.getenv("SPRING_PROFILES_ACTIVE") == null) {
+        args = ["--spring.profiles.active=local"]
+        println args
+    }
+}
+
+
+testSets {
+    testIntegration
+}
+
+project.testIntegration {
+    outputs.upToDateWhen { false }
+}
+
+dependencies {
+
+    implementation 'org.apache.kafka:kafka-clients:3.1.2'
+
+    implementation 'org.springframework.kafka:spring-kafka:2.8.11'
+    testImplementation 'org.springframework.kafka:spring-kafka-test:2.8.11'    
+
+    implementation 'io.confluent:kafka-avro-serializer:6.2.8'
+    implementation 'io.confluent:kafka-schema-registry-client:6.2.8'
+    implementation 'tech.allegro.schema.json2avro:converter:0.2.9'
+    implementation "org.apache.avro:avro:1.11.0"
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.1'
+
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.slf4j:slf4j-api:2.0.5'
+    implementation 'org.slf4j:slf4j-simple:2.0.5'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation "commons-cli:commons-cli:1.5.0"
+
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.5'
+    testCompileOnly 'org.projectlombok:lombok:1.18.24'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+    testImplementation 'org.spockframework:spock-core:2.3-groovy-3.0'
+    testImplementation 'org.spockframework:spock-spring:2.3-groovy-3.0'
+    testImplementation 'org.codehaus.groovy:groovy-all:3.0.14'
+    testImplementation 'org.awaitility:awaitility-groovy:3.1.0'
+    testImplementation "org.testcontainers:spock:1.15.3"
+
+    testIntegrationImplementation 'org.testcontainers:kafka:1.15.3'
+
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}

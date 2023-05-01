@@ -1,0 +1,23 @@
+
+# Configuration used to connect to Confluent Cloud using plain sasl
+# Provide the cluster secrets as environment variables
+
+spring:
+  kafka:
+    bootstrap:
+      servers: ${CLUSTER_SERVER}
+    properties:
+      sasl:
+        jaas:
+          config: org.apache.kafka.common.security.plain.PlainLoginModule required
+            username='${CLUSTER_API_KEY}' password='${CLUSTER_API_SECRET}';
+        mechanism: PLAIN
+      session:
+        timeout:
+          ms: '45000'
+      security:
+        protocol: SASL_SSL
+      basic.auth.credentials.source: USER_INFO
+      basic.auth.user.info: ${SR_API_KEY}:${SR_API_SECRET}
+      schema.registry.url: ${SR_URL}
+

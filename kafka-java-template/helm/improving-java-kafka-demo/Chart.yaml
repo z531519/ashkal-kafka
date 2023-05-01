@@ -1,0 +1,8 @@
+apiVersion: v1
+description: Ashkal Java Kafka Template
+keywords:
+- Kafka
+- Java
+- SpringBoot
+name: kafka-java-template
+version: 0.0.1
